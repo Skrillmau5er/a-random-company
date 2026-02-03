@@ -1,65 +1,127 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
+  const [clickCount, setClickCount] = useState(0);
+  const [name, setName] = useState("");
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="space-y-8">
+        {/* Hero Section */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold tracking-tight">
+            Welcome to A Random Company
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl text-muted-foreground">
+            Your premier destination for random things
           </p>
+          <div className="flex gap-2 justify-center">
+            <Badge>Demo</Badge>
+            <Badge variant="secondary">Testing</Badge>
+            <Badge variant="outline">Interactive</Badge>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Interactive Cards */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Click Counter</CardTitle>
+              <CardDescription>Test the interactive button below</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-center">
+                <p className="text-3xl font-bold">{clickCount}</p>
+                <p className="text-sm text-muted-foreground">Total Clicks</p>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={() => setClickCount(clickCount + 1)}
+                  className="flex-1"
+                >
+                  Increment
+                </Button>
+                <Button 
+                  onClick={() => setClickCount(0)}
+                  variant="outline"
+                >
+                  Reset
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Name Greeter</CardTitle>
+              <CardDescription>Enter your name to get a personalized greeting</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Input 
+                placeholder="Enter your name..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {name && (
+                <div className="p-4 rounded-lg bg-accent text-center">
+                  <p className="text-lg font-medium">
+                    Hello, <span className="text-primary">{name}</span>! 👋
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
-      </main>
-    </div>
+
+        {/* Tabs Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Company Information</CardTitle>
+            <CardDescription>Learn more about what we do</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="about" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="about">About</TabsTrigger>
+                <TabsTrigger value="services">Services</TabsTrigger>
+                <TabsTrigger value="contact">Contact</TabsTrigger>
+              </TabsList>
+              <TabsContent value="about" className="space-y-4 mt-4">
+                <h3 className="text-lg font-semibold">About Us</h3>
+                <p className="text-muted-foreground">
+                  A Random Company is a demo application built to showcase modern web technologies
+                  and interactive components. We specialize in creating engaging user experiences
+                  with beautiful, functional interfaces.
+                </p>
+              </TabsContent>
+              <TabsContent value="services" className="space-y-4 mt-4">
+                <h3 className="text-lg font-semibold">Our Services</h3>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                  <li>Interactive Component Development</li>
+                  <li>Modern UI/UX Design</li>
+                  <li>Responsive Web Applications</li>
+                  <li>Testing & Demo Environments</li>
+                </ul>
+              </TabsContent>
+              <TabsContent value="contact" className="space-y-4 mt-4">
+                <h3 className="text-lg font-semibold">Get in Touch</h3>
+                <div className="space-y-2 text-muted-foreground">
+                  <p>Email: hello@arandomcompany.com</p>
+                  <p>Phone: (555) 123-4567</p>
+                  <p>Address: 123 Demo Street, Test City, TC 12345</p>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
   );
 }
