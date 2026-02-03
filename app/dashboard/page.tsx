@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { initializePendo } from "@/lib/pendo";
 
 export default function DashboardPage() {
   const [revenue, setRevenue] = useState([75]);
   const [users, setUsers] = useState([60]);
   const [performance, setPerformance] = useState([85]);
   const [refreshCount, setRefreshCount] = useState(0);
+
+  useEffect(() => {
+    initializePendo();
+  }, []);
 
   const handleRefresh = () => {
     setRefreshCount(refreshCount + 1);

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { initializePendo } from "@/lib/pendo";
 
 export default function UserPage() {
   const [email, setEmail] = useState("");
@@ -18,6 +19,10 @@ export default function UserPage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
+
+  useEffect(() => {
+    initializePendo();
+  }, []);
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-4xl">

@@ -28,7 +28,6 @@ export function initializePendo(): VisitorData | null {
   // If cookie exists, visitor is not new - skip initialization
   if (visitorId) {
     console.log('Existing Pendo visitor detected:', visitorId);
-    return null;
   } else {
       visitorId = crypto.randomUUID();
   }

@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { initializePendo } from "@/lib/pendo";
 
 export default function Home() {
   const [clickCount, setClickCount] = useState(0);
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    initializePendo();
+  }, []);
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-6xl">
