@@ -53,6 +53,11 @@ export function initializePendo(): VisitorData | null {
   return visitorData;
 }
 
+export function trackEvent(eventName: string, metadata?: Record<string, unknown>): void {
+  if (typeof window === 'undefined' || !window.pendo) return;
+  window.pendo.track(eventName, metadata);
+}
+
 /**
  * Gets the current visitor ID from the cookie
  */
