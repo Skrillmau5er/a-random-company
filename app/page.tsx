@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { initializePendo } from "@/lib/pendo";
+import { initializePendo, trackEvent } from "@/lib/pendo";
 
 export default function Home() {
   const [clickCount, setClickCount] = useState(0);
@@ -47,14 +47,21 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">Total Clicks</p>
               </div>
               <div className="flex gap-2">
-                <Button 
-                  onClick={() => setClickCount(clickCount + 1)}
+                <Button
+                  onClick={() => {
+                    const next = clickCount + 1;
+                    setClickCount(next);
+                    trackEvent("Counter Incremented", { count: next });
+                  }}
                   className="flex-1"
                 >
                   Increment
                 </Button>
-                <Button 
-                  onClick={() => setClickCount(0)}
+                <Button
+                  onClick={() => {
+                    setClickCount(0);
+                    trackEvent("Counter Reset", { previousCount: clickCount });
+                  }}
                   variant="outline"
                 >
                   Reset

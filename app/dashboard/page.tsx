@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { initializePendo } from "@/lib/pendo";
+import { initializePendo, trackEvent } from "@/lib/pendo";
 
 export default function DashboardPage() {
   const [revenue, setRevenue] = useState([75]);
@@ -19,11 +19,12 @@ export default function DashboardPage() {
   }, []);
 
   const handleRefresh = () => {
-    setRefreshCount(refreshCount + 1);
-    // Simulate data refresh
+    const next = refreshCount + 1;
+    setRefreshCount(next);
     setRevenue([Math.floor(Math.random() * 100)]);
     setUsers([Math.floor(Math.random() * 100)]);
     setPerformance([Math.floor(Math.random() * 100)]);
+    trackEvent("Dashboard Refreshed", { refreshCount: next });
   };
 
   return (
@@ -119,7 +120,7 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={revenue}
-                onValueChange={setRevenue}
+                onValueChange={(v) => { setRevenue(v); trackEvent("Metric Adjusted", { metric: "Revenue Growth", value: v[0] }); }}
                 max={100}
                 step={1}
                 className="w-full"
@@ -133,7 +134,7 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={users}
-                onValueChange={setUsers}
+                onValueChange={(v) => { setUsers(v); trackEvent("Metric Adjusted", { metric: "User Growth", value: v[0] }); }}
                 max={100}
                 step={1}
                 className="w-full"
@@ -147,7 +148,7 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={performance}
-                onValueChange={setPerformance}
+                onValueChange={(v) => { setPerformance(v); trackEvent("Metric Adjusted", { metric: "Performance Score", value: v[0] }); }}
                 max={100}
                 step={1}
                 className="w-full"
