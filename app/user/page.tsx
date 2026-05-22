@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { initializePendo } from "@/lib/pendo";
+import { initializePendo, trackEvent } from "@/lib/pendo";
 
 export default function UserPage() {
   const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ export default function UserPage() {
   const handleSave = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+    trackEvent("Profile Saved", { hasEmail: email.length > 0, hasUsername: username.length > 0 });
   };
 
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function UserPage() {
               </div>
               <Switch
                 checked={notifications}
-                onCheckedChange={setNotifications}
+                onCheckedChange={(v) => { setNotifications(v); trackEvent("Setting Toggled", { setting: "notifications", enabled: v }); }}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -99,7 +100,7 @@ export default function UserPage() {
               </div>
               <Switch
                 checked={darkMode}
-                onCheckedChange={setDarkMode}
+                onCheckedChange={(v) => { setDarkMode(v); trackEvent("Setting Toggled", { setting: "darkMode", enabled: v }); }}
               />
             </div>
           </CardContent>
