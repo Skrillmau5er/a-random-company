@@ -4,9 +4,17 @@ interface PendoVisitor {
     firstName: string;
     lastName: string;
   }
-  
+
+  interface PendoAccount {
+    id: string;
+    name: string;
+    planLevel: string;
+    industry: string;
+  }
+
   interface PendoInitializeOptions {
     visitor: PendoVisitor;
+    account?: PendoAccount;
   }
   
   interface Pendo {
