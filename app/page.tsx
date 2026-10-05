@@ -8,6 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { initializePendo, trackEvent } from "@/lib/pendo";
 
+// Last name reported as "Greeting Generated". Kept at module level (not in component state)
+// so re-focusing the input, or navigating away and back, doesn't re-report the same name.
+let lastTrackedGreetingName = "";
+
 export default function Home() {
   const [clickCount, setClickCount] = useState(0);
   const [name, setName] = useState("");
@@ -15,6 +19,15 @@ export default function Home() {
   useEffect(() => {
     initializePendo();
   }, []);
+
+  // Called when the visitor finishes entering a name (blur or Enter), not on every keystroke.
+  const trackGreetingGenerated = () => {
+    const trimmedName = name.trim();
+    if (!trimmedName || trimmedName === lastTrackedGreetingName) return;
+    lastTrackedGreetingName = trimmedName;
+    // Send only the length, never the name itself (PII).
+    trackEvent("Greeting Generated", { nameLength: trimmedName.length });
+  };
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-6xl">
@@ -60,7 +73,10 @@ export default function Home() {
                 <Button
                   onClick={() => {
                     setClickCount(0);
-                    trackEvent("Counter Reset", { previousCount: clickCount });
+                    // Resetting an already-zero counter is a no-op, so don't report it.
+                    if (clickCount > 0) {
+                      trackEvent("Counter Reset", { previousCount: clickCount });
+                    }
                   }}
                   variant="outline"
                 >
@@ -80,6 +96,12 @@ export default function Home() {
                 placeholder="Enter your name..."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onBlur={trackGreetingGenerated}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                    trackGreetingGenerated();
+                  }
+                }}
               />
               {name && (
                 <div className="p-4 rounded-lg bg-accent text-center">
