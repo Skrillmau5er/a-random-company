@@ -113,6 +113,8 @@ export default function DashboardPage() {
             <CardDescription>Adjust the values to see real-time updates</CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
+            {/* "Metric Adjusted" is tracked in onValueCommit (once per drag release or key press),
+                not onValueChange, which fires on every 1-point step while dragging. */}
             <div className="space-y-3">
               <div className="flex justify-between">
                 <label className="text-sm font-medium">Revenue Growth</label>
@@ -120,7 +122,8 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={revenue}
-                onValueChange={(v) => { setRevenue(v); trackEvent("Metric Adjusted", { metric: "Revenue Growth", value: v[0] }); }}
+                onValueChange={setRevenue}
+                onValueCommit={(v) => trackEvent("Metric Adjusted", { metric: "Revenue Growth", value: v[0] })}
                 max={100}
                 step={1}
                 className="w-full"
@@ -134,7 +137,8 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={users}
-                onValueChange={(v) => { setUsers(v); trackEvent("Metric Adjusted", { metric: "User Growth", value: v[0] }); }}
+                onValueChange={setUsers}
+                onValueCommit={(v) => trackEvent("Metric Adjusted", { metric: "User Growth", value: v[0] })}
                 max={100}
                 step={1}
                 className="w-full"
@@ -148,7 +152,8 @@ export default function DashboardPage() {
               </div>
               <Slider
                 value={performance}
-                onValueChange={(v) => { setPerformance(v); trackEvent("Metric Adjusted", { metric: "Performance Score", value: v[0] }); }}
+                onValueChange={setPerformance}
+                onValueCommit={(v) => trackEvent("Metric Adjusted", { metric: "Performance Score", value: v[0] })}
                 max={100}
                 step={1}
                 className="w-full"
