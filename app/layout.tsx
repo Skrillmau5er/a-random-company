@@ -39,7 +39,7 @@ export default function RootLayout({
                     o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
                     y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo-link.pendo-dev.com/agent/static/'+apiKey+'/pendo.js';
                     z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
-            })('${process.env.PENDO_INT_KEY}');
+            })('05394e17-da60-4949-b88d-a375a7f0076e');
           ` }}
         />
       </body>
