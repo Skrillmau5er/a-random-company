@@ -8,6 +8,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "User", href: "/user" },
   { name: "Dashboard", href: "/dashboard" },
+  { name: "Assistant", href: "/assistant" },
 ];
 
 export function Nav() {

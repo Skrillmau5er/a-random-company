@@ -23,7 +23,7 @@ interface PendoVisitor {
     updateOptions: (options: Partial<PendoInitializeOptions>) => void;
     pageLoad: () => void;
     track: (eventName: string, metadata?: Record<string, unknown>) => void;
-    trackAgent: (eventName: string, metadata?: Record<string, unknown>) => void;
+    trackAgent: (eventType: string, props: Record<string, unknown>, eventProperties?: Record<string, unknown>) => void;
     _q: unknown[];
   }
   

@@ -22,6 +22,7 @@ Next.js 16 App Router app. All pages are client components (`"use client"`) beca
 - `/` (`app/page.tsx`) — homepage with interactive demo components
 - `/dashboard` (`app/dashboard/page.tsx`) — mock metrics dashboard with sliders
 - `/user` (`app/user/page.tsx`) — profile/settings form
+- `/assistant` (`app/assistant/page.tsx`) — scripted chat agents (`app/api/assistant/route.ts`) instrumented with `pendo.trackAgent` for Pendo Agent Analytics; agent ids live in `lib/agents.ts`
 
 **UI components** are in `components/ui/` — shadcn/ui primitives (Button, Card, Input, Badge, Tabs, Slider, Switch). `components/nav.tsx` uses `usePathname` for active link highlighting.
 
