@@ -88,6 +88,11 @@ export function trackEvent(eventName: string, metadata?: Record<string, unknown>
   window.pendo.track(eventName, metadata);
 }
 
+export function trackAgent(eventType: 'prompt' | 'agent_response' | 'user_reaction', props: Record<string, unknown>): void {
+  if (typeof window === 'undefined' || !window.pendo) return;
+  window.pendo.trackAgent(eventType, props);
+}
+
 /**
  * Gets the current visitor ID from the cookie
  */
